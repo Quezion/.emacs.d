@@ -1,4 +1,3 @@
-
 ;; MELPA (latest)
 ;; https://www.emacswiki.org/emacs/MELPA
 (when (>= emacs-major-version 24)
@@ -23,12 +22,27 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;; Vertical display of Ido mode - https://github.com/creichert/ido-vertical-mode.el
+(unless (package-installed-p 'ido-vertical-mode)
+  (package-install 'ido-vertical-mode))
+(ido-mode 1)
+(ido-vertical-mode 1)
+
+;; Show Ido autocomplete options at point - https://github.com/katspaugh/ido-at-point
+(unless (package-installed-p 'ido-at-point)
+  (package-install 'ido-at-point))
+
 ;; Required for Emacs to find lein
 (add-to-list 'exec-path "/usr/local/bin")
 
 ;; Clojure mode - https://github.com/clojure-emacs/clojure-mode
 (unless (package-installed-p 'clojure-mode)
   (package-install 'clojure-mode))
+
+;; Extra font locking (keyword highlighting) for Clojure/CLJS
+(unless (package-installed-p 'clojure-mode-extra-font-locking)
+  (package-install 'clojure-mode-extra-font-locking))
+(eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
 ;; Rainbow Delimiters - https://www.emacswiki.org/emacs/RainbowDelimiters
 (unless (package-installed-p 'rainbow-delimiters)
@@ -54,6 +68,10 @@
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
+;; Allows use of modern regex - https://github.com/benma/visual-regexp-steroids.el
+(unless (package-installed-p 'visual-regexp-steroids)
+  (package-install 'visual-regexp-steroids))
+
 ;; CIDER - https://github.com/clojure-emacs/cider
 (unless (package-installed-p 'cider)
   (package-install 'cider))
@@ -63,6 +81,7 @@
 (unless (package-installed-p 'solarized-theme)
   (package-install 'solarized-theme))
 
+;; Desktop+ allows saving/loading sets of files into buffers
 (unless (package-installed-p 'desktop+)
   (package-install 'desktop+))
 
@@ -71,13 +90,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cider-repl-use-pretty-printing t)
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (ido-at-point-mode ido-vertical-mode visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -100,3 +120,9 @@
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
 	(revert-buffer t t t) )))
   (message "Refreshed open files."))
+
+;; Keybinds
+
+;; Visual regexp on steroids
+(define-key global-map (kbd "C-c r") 'vr/replace)
+(define-key global-map (kbd "C-c q") 'vr/query-replace)
