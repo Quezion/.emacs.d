@@ -89,11 +89,15 @@
 (unless (package-installed-p 'solarized-theme)
   (package-install 'solarized-theme))
 
-;; Desktop+ allows saving/loading sets of files into buffers
+;; Desktop+ allows saving/loading sets of files into buffers - https://github.com/ffevotte/desktop-plus
 (unless (package-installed-p 'desktop+)
   (package-install 'desktop+))
 
-;; yaml-mode to provide YAML syntax support
+;; Projectile provides first class abstractions for manipulating project files - https://github.com/bbatsov/projectile
+(unless (package-installed-p 'projectile)
+  (package-isntall 'projectile))
+
+;; yaml-mode to provide YAML syntax support - https://github.com/yoshiki/yaml-mode
 (unless (package-installed-p 'yaml-mode)
   (package-install 'yaml-mode))
 

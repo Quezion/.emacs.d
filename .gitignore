@@ -1,6 +1,10 @@
 auto-save-list/*
 .DS_Store
 elpa/*
+desktops
+url
+ido.last
+.emacs-buffers
 
 # basic Emacs.gitignore from https://github.com/github/gitignore/blob/master/Global/Emacs.gitignore
 *~
