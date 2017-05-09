@@ -95,7 +95,7 @@
 
 ;; Projectile provides first class abstractions for manipulating project files - https://github.com/bbatsov/projectile
 (unless (package-installed-p 'projectile)
-  (package-isntall 'projectile))
+  (package-install 'projectile))
 
 ;; yaml-mode to provide YAML syntax support - https://github.com/yoshiki/yaml-mode
 (unless (package-installed-p 'yaml-mode)
@@ -156,6 +156,12 @@
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
 	(revert-buffer t t t) )))
   (message "Refreshed open files."))
+
+(defun format-buffer ()
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
+(global-set-key [f12] 'indent-buffer)
 
 ;; Keybinds
 
