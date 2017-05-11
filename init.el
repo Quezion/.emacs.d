@@ -11,6 +11,11 @@
 ;; It's necessary any time I add a new package or install for the first time
 (package-refresh-contents) ;; Required to maintain updated package list
 
+;; Tell Emacs to only GC when 20mb of garbage is reached
+;; this prevents aggressive GCs that trigger several time a second and create bad UX
+;; (If the current year is >=2020, you should probably increase this.)
+(setq gc-cons-threshold 20000000)
+
 ;; TODO: fix colors being off in from `ansi-term` command
 
 ;; Makes Emacs remember open buffers between runs
@@ -33,6 +38,14 @@
 ;; Show Ido autocomplete options at point - https://github.com/katspaugh/ido-at-point
 (unless (package-installed-p 'ido-at-point)
   (package-install 'ido-at-point))
+
+;; Improved Flex matching for IDO - https://github.com/lewang/flx
+(unless (package-installed-p 'flx-ido)
+  (package-install 'flx-ido))
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 ;; Required for Emacs to find lein
 (add-to-list 'exec-path "/usr/local/bin")
@@ -96,6 +109,8 @@
 ;; Projectile provides first class abstractions for manipulating project files - https://github.com/bbatsov/projectile
 (unless (package-installed-p 'projectile)
   (package-install 'projectile))
+(projectile-global-mode) ;; enabled for all modes
+
 
 ;; yaml-mode to provide YAML syntax support - https://github.com/yoshiki/yaml-mode
 (unless (package-installed-p 'yaml-mode)
@@ -133,7 +148,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (yaml-mode dockerfile-mode docker ido-at-point-mode ido-vertical-mode visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (flx-ido yaml-mode dockerfile-mode docker ido-at-point-mode ido-vertical-mode visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
