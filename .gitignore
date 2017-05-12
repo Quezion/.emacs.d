@@ -5,6 +5,7 @@ desktops
 url
 ido.last
 .emacs-buffers
+projectile-bookmarks.eld
 
 # basic Emacs.gitignore from https://github.com/github/gitignore/blob/master/Global/Emacs.gitignore
 *~
