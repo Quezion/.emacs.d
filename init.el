@@ -32,6 +32,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+;; TODO: move to Helm instead? https://emacs-helm.github.io/helm/
 
 ;; [Vertical display of Ido mode] - https://github.com/creichert/ido-vertical-mode.el
 (unless (package-installed-p 'ido-vertical-mode) (package-install 'ido-vertical-mode))
@@ -89,6 +90,14 @@
 (unless (package-installed-p 'visual-regexp-steroids)
   (package-install 'visual-regexp-steroids))
 
+;; [ggtags] - improves Emacs symbol tagging - https://github.com/leoliu/ggtags
+(unless (package-installed-p 'ggtags)
+  (package-install 'ggtags))
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'clojure-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1))))
+
 ;; ************************************
 ;; ---~~~====  CLOJURE CONFIG  ====~~~---
 ;; ************************************
@@ -113,6 +122,11 @@
 ;; [CIDER Debugger] - https://github.com/clojure-emacs/cider
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
+;; WARNING: Makes repl autoreload. Boot projects are assumed to have boot-refresh
+;;            https://github.com/samestep/boot-refresh
+(setq cider-boot-parameters "repl -s watch refresh")
+;;(setq cider-boot-parameters "dev")
+
 ;; [Clojure Refactor (CIDER based)] - https://github.com/clojure-emacs/clj-refactor.el
 (unless (package-installed-p 'clj-refactor) (package-install 'clj-refactor))
 (defun my-clojure-refactor-hook ()
@@ -123,15 +137,13 @@
 (add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
 
 ;; [CIDER+Flycheck Clojure linting] - https://github.com/clojure-emacs/squiggly-clojure
-(unless (package-installed-p 'flycheck-clojure) (package-install 'flycheck-clojure))
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(unless (package-installed-p 'flycheck-pos-tip) (package-install 'flycheck-pos-tip))
-(eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;; (unless (package-installed-p 'flycheck-clojure) (package-install 'flycheck-clojure))
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
+;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
+;; (unless (package-installed-p 'flycheck-pos-tip) (package-install 'flycheck-pos-tip))
+;; (eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; ************************************
 ;; ---~~~=====  DevOps CONFIG  =====~~~---
