@@ -15,10 +15,10 @@
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ************************************
 
-;; Tell Emacs to only GC when 20mb of garbage is reached
+;; Tell Emacs to only GC when 40mb of garbage is reached
 ;; this prevents aggressive GCs that trigger several time a second and create bad UX
 ;; (If the current year is >=2020, you should probably increase this.)
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 40000000)
 
 ;; TODO: fix colors being off in from `ansi-term` command
 
@@ -215,6 +215,27 @@
   (save-excursion
     (indent-region (point-min) (point-max) nil)))
 (global-set-key [f12] 'indent-buffer)
+
+;; Below scratch FNs auto-reopen the m*scratch* buffer when it's killed
+;; This obviates the need to "figure out how to recreate the *scratch* buffer"
+;; Stolen from: https://emacs.stackexchange.com/questions/20/re-open-scratch-buffer
+(defun prepare-scratch-for-kill ()
+  (save-excursion
+    (set-buffer (get-buffer-create "*scratch*"))
+    (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer t)))
+
+(defun kill-scratch-buffer ()
+  (let (kill-buffer-query-functions)
+    (kill-buffer (current-buffer)))
+  ;; no way, *scratch* shall live
+  (prepare-scratch-for-kill)
+  ;; Since we "killed" it, don't let caller try too
+  nil)
+
+(prepare-scratch-for-kill)
+
+;; Sets the default text for the scratch buffer
+(setq initial-scratch-message "=== GOAL ===\n\n=== PROBLEM STATEMENT ===\n\n=== Q&A ===\nWhy can't the goal be achieved?")
 
 
 ;; ************************************
