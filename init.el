@@ -29,25 +29,33 @@
 (setq font-lock-verbose nil)
 
 ;; [Ido mode] -- enables automatic matching for buffers and files as you type
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+;;(setq ido-enable-flex-matching t)
+;;(setq ido-everywhere t)
+;;(ido-mode 1)
 ;; TODO: move to Helm instead? https://emacs-helm.github.io/helm/
 
 ;; [Vertical display of Ido mode] - https://github.com/creichert/ido-vertical-mode.el
-(unless (package-installed-p 'ido-vertical-mode) (package-install 'ido-vertical-mode))
-(ido-mode 1)
-(ido-vertical-mode 1)
+;;(unless (package-installed-p 'ido-vertical-mode) (package-install 'ido-vertical-mode))
+;;(ido-mode 1)
+;;(ido-vertical-mode 1)
 
 ;; [Ido autocomplete options at point] - https://github.com/katspaugh/ido-at-point
-(unless (package-installed-p 'ido-at-point) (package-install 'ido-at-point))
+;;(unless (package-installed-p 'ido-at-point) (package-install 'ido-at-point))
 
 ;; [Improved Flex matching for IDO] - https://github.com/lewang/flx
-(unless (package-installed-p 'flx-ido) (package-install 'flx-ido))
-(flx-ido-mode 1)
+;;(unless (package-installed-p 'flx-ido) (package-install 'flx-ido))
+;;(flx-ido-mode 1)
 ;; disable ido faces to see flx highlights
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+;;(setq ido-enable-flex-matching t)
+;;(setq ido-use-faces nil)
+
+(unless (package-installed-p 'helm) (package-install 'helm))
+(require 'helm-config)
+
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(helm-mode 1)
 
 ;; [Flycheck] - inline error highlighting - http://www.flycheck.org/en/latest/
 (unless (package-installed-p 'flycheck) (package-install 'flycheck))
@@ -186,7 +194,14 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (flx-ido yaml-mode dockerfile-mode docker ido-at-point-mode ido-vertical-mode visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (;;flx-ido
+     yaml-mode
+     dockerfile-mode
+     docker
+     ;;ido-at-point-mode
+     ;;ido-vertical-mode
+     visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode
+     ))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
