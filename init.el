@@ -28,34 +28,14 @@
 ;; Disable logging messages when font-locking to speed up rendering
 (setq font-lock-verbose nil)
 
-;; [Ido mode] -- enables automatic matching for buffers and files as you type
-;;(setq ido-enable-flex-matching t)
-;;(setq ido-everywhere t)
-;;(ido-mode 1)
-;; TODO: move to Helm instead? https://emacs-helm.github.io/helm/
-
-;; [Vertical display of Ido mode] - https://github.com/creichert/ido-vertical-mode.el
-;;(unless (package-installed-p 'ido-vertical-mode) (package-install 'ido-vertical-mode))
-;;(ido-mode 1)
-;;(ido-vertical-mode 1)
-
-;; [Ido autocomplete options at point] - https://github.com/katspaugh/ido-at-point
-;;(unless (package-installed-p 'ido-at-point) (package-install 'ido-at-point))
-
-;; [Improved Flex matching for IDO] - https://github.com/lewang/flx
-;;(unless (package-installed-p 'flx-ido) (package-install 'flx-ido))
-;;(flx-ido-mode 1)
-;; disable ido faces to see flx highlights
-;;(setq ido-enable-flex-matching t)
-;;(setq ido-use-faces nil)
-
+;; [Helm] - incremental completion and selection narrowing - https://github.com/emacs-helm/helm
 (unless (package-installed-p 'helm) (package-install 'helm))
 (require 'helm-config)
-
+(helm-mode 1)
+;; Replace some built-in FNs with the helm upgrades
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
-(helm-mode 1)
 
 ;; [Flycheck] - inline error highlighting - http://www.flycheck.org/en/latest/
 (unless (package-installed-p 'flycheck) (package-install 'flycheck))
@@ -77,7 +57,7 @@
 (unless (package-installed-p 'projectile) (package-install 'projectile))
 (projectile-global-mode) ;; enabled for all modes
 
-
+;; [Helm-Projectile] - Helm completion in Projectile commands - https://github.com/bbatsov/helm-projectile
 (unless (package-installed-p 'helm-projectile) (package-install 'helm-projectile))
 (require 'helm-projectile)
 (helm-projectile-on)
@@ -88,18 +68,19 @@
 (add-hook 'css-mode-hook #'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
-;; [Paredit for major LISP modes] - https://www.emacswiki.org/emacs/ParEdit
-(unless (package-installed-p 'paredit) (package-install 'paredit))
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'clojure-mode-hook #'paredit-mode)
-(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+;; [Modern Paredit for major LISP modes] - https://github.com/Fuco1/smartparens
+;;  - has support for Paredit in non-LISP modes, but not yet understood/enabled
+(unless (package-installed-p 'smartparens) (package-install 'smartparens))
+(require 'smartparens-config)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'emacs-lisp-mode-hook       #'smartparens-strict-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'smartparens-strict-mode)
+(add-hook 'ielm-mode-hook             #'smartparens-strict-mode)
+(add-hook 'lisp-mode-hook             #'smartparens-strict-mode)
+(add-hook 'lisp-interaction-mode-hook #'smartparens-strict-mode)
+(add-hook 'scheme-mode-hook           #'smartparens-strict-mode)
 
-;; [Modern Regex] - https://github.com/benma/visual-regexp-steroids.el
+;; [Modern Regex] - Provides modern regex cmds - https://github.com/benma/visual-regexp-steroids.el
 (unless (package-installed-p 'visual-regexp-steroids)
   (package-install 'visual-regexp-steroids))
 
@@ -229,6 +210,9 @@
     (indent-region (point-min) (point-max) nil)))
 (global-set-key [f12] 'indent-buffer)
 
+;; Sets the default text for the scratch buffer
+(setq initial-scratch-message "=== GOAL ===\n\n=== PROBLEM STATEMENT ===\n\n=== Q&A ===\nWhy can't the goal be achieved?")
+
 ;; Below scratch FNs auto-reopen the m*scratch* buffer when it's killed
 ;; This obviates the need to "figure out how to recreate the *scratch* buffer"
 ;; Stolen from: https://emacs.stackexchange.com/questions/20/re-open-scratch-buffer
@@ -247,8 +231,6 @@
 
 (prepare-scratch-for-kill)
 
-;; Sets the default text for the scratch buffer
-(setq initial-scratch-message "=== GOAL ===\n\n=== PROBLEM STATEMENT ===\n\n=== Q&A ===\nWhy can't the goal be achieved?")
 
 
 ;; ************************************
