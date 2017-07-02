@@ -6,6 +6,7 @@ url
 ido.last
 .emacs-buffers
 projectile-bookmarks.eld
+projectile.cache
 
 # basic Emacs.gitignore from https://github.com/github/gitignore/blob/master/Global/Emacs.gitignore
 *~

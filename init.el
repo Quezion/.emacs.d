@@ -77,6 +77,11 @@
 (unless (package-installed-p 'projectile) (package-install 'projectile))
 (projectile-global-mode) ;; enabled for all modes
 
+
+(unless (package-installed-p 'helm-projectile) (package-install 'helm-projectile))
+(require 'helm-projectile)
+(helm-projectile-on)
+
 ;; [Aggressive Indent Mode] - https://github.com/Malabarba/aggressive-indent-mode
 (unless (package-installed-p 'aggressive-indent) (package-install 'aggressive-indent))
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
@@ -194,14 +199,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (;;flx-ido
-     yaml-mode
-     dockerfile-mode
-     docker
-     ;;ido-at-point-mode
-     ;;ido-vertical-mode
-     visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode
-     ))))
+    (yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
