@@ -238,7 +238,15 @@
 
 (prepare-scratch-for-kill)
 
-
+;; Navigation FNs
+(defun smart-line-beginning ()
+  "Move point to the beginning of text on the current line; if that is already
+the current position of point, then move it to the beginning of the line."
+  (interactive)
+  (let ((pt (point)))
+    (beginning-of-line-text)
+    (when (eq pt (point))
+      (beginning-of-line))))
 
 ;; ************************************
 ;; ---~~~=======  KEYBINDS  =======~~~---
@@ -247,3 +255,6 @@
 ;; Visual regexp on steroids
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
+
+;; Move to beginning of code or beginning of line (toggle)
+(define-key global-map (kbd "C-a") 'smart-line-beginning)
