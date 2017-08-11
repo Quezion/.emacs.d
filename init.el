@@ -21,12 +21,26 @@
 (setq gc-cons-threshold 40000000)
 
 ;; TODO: fix colors being off in from `ansi-term` command
+;; TODO: refactor all package declarations to the `use-package' format for cleanliness+faster boot
+;; TODO: https://github.com/purcell/exec-path-from-shell
+;; TODO: enable below Hippie-expand, except it doesn't seem to be a MELPA package?
+;; TODO: switch to previous buffer: http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 
 ;; Makes Emacs remember open buffers between runs
 (desktop-save-mode 1)
 
 ;; Disable logging messages when font-locking to speed up rendering
 (setq font-lock-verbose nil)
+
+;; [use-package] - streamlined package specification - https://github.com/jwiegley/use-package
+(unless (package-installed-p 'use-package) (package-install 'use-package))
+
+;; [buffer-move] - transpose buffers - https://github.com/lukhas/buffer-move
+(unless (package-installed-p 'buffer-move) (package-install 'buffer-move))
+(global-set-key (kbd "<C-S-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
 ;; [Helm] - incremental completion and selection narrowing - https://github.com/emacs-helm/helm
 (unless (package-installed-p 'helm) (package-install 'helm))
@@ -36,6 +50,9 @@
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
+
+;; [Hippie Expand] - Tries to expand word at/before point
+;; (unless (package-installed-p 'hippie-expand) (package-install 'hippie-expand))
 
 ;; [Flycheck] - inline error highlighting - http://www.flycheck.org/en/latest/
 (unless (package-installed-p 'flycheck) (package-install 'flycheck))
@@ -68,10 +85,14 @@
 (add-hook 'css-mode-hook #'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
-;; [Modern Paredit for major LISP modes] - https://github.com/Fuco1/smartparens
+;; [Modern Paredit for major modes] - https://github.com/Fuco1/smartparens
 ;;  - has support for Paredit in non-LISP modes, but not yet understood/enabled
 (unless (package-installed-p 'smartparens) (package-install 'smartparens))
-(require 'smartparens-config)
+(require 'smartparens-config) ;; loads default bindings & settings
+;; reference: https://github.com/Fuco1/smartparens/blob/master/smartparens-config.el
+(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode) ;; ???
+;; NOTE: there are many smartparens bindings at the end of this file
+
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 (add-hook 'clojure-mode-hook #'show-smartparens-mode)
 (add-hook 'emacs-lisp-mode-hook       #'smartparens-strict-mode)
@@ -86,6 +107,9 @@
 (add-hook 'lisp-interaction-mode-hook #'show-smartparens-mode)
 (add-hook 'scheme-mode-hook           #'smartparens-strict-mode)
 (add-hook 'scheme-mode-hook           #'show-smartparens-mode)
+
+;; [Hydra] - tie together related commands off common prefix - https://github.com/abo-abo/hydra
+(unless (package-installed-p 'hydra) (package-install 'hydra))
 
 ;; [Modern Regex] - Provides modern regex cmds - https://github.com/benma/visual-regexp-steroids.el
 (unless (package-installed-p 'visual-regexp-steroids)
@@ -166,6 +190,9 @@
 (setenv "DOCKER_HOST" "tcp://10.11.12.13:2376")
 (setenv "DOCKER_CERT_PATH" "/Users/foo/.docker/machine/machines/box")
 (setenv "DOCKER_MACHINE_NAME" "box")
+
+;; OSX only keybind config
+(setq ns-function-modifier 'super)
 
 ;; [dockerfile-mode] - highlights for Dockerfiles - https://github.com/spotify/dockerfile-mode
 (unless (package-installed-p 'dockerfile-mode) (package-install 'dockerfile-mode))
@@ -258,3 +285,24 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Move to beginning of code or beginning of line (toggle)
 (define-key global-map (kbd "C-a") 'smart-line-beginning)
+
+;; Try to intelligently expand word at/before point
+;; (global-set-key "\M- " 'hippie-expand)
+
+
+;; Shamelessly stolen from Fuco1's smartparens setup
+;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
+(bind-key "C-M-s"
+          (defhydra smartparens-hydra ()
+            "Smartparens"
+            ("w" sp-down-sexp "Down")
+            ("s" sp-up-sexp "Up")
+            ("u" sp-backward-up-sexp "Up")
+            ("a" sp-backward-down-sexp "Down")
+            ("d" sp-forward-sexp "Forward")
+            ("a" sp-backward-sexp "Backward")
+            ("k" sp-kill-sexp "Kill" :color blue)
+            ("q" nil "Quit" :color blue))
+          smartparens-mode-map)
+
+;; TODO, what are nicer keys for the above bindings, and how to set up/down/left/right to normal character movement?
