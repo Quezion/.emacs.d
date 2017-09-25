@@ -15,6 +15,17 @@
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ************************************
 
+;; OSX: Disable Emacs GUI
+(tool-bar-mode -1)
+;; OSX: Resize to default MacBook Pro 2015 screensize
+(setq initial-frame-alist
+      `((left . 60) (top . 0)
+        (width . 80) (height . 56)))
+
+(x-focus-frame nil)
+(setq ns-pop-up-frames nil)
+;;(server-start)
+
 ;; Tell Emacs to only GC when 40mb of garbage is reached
 ;; this prevents aggressive GCs that trigger several time a second and create bad UX
 ;; (If the current year is >=2020, you should probably increase this.)
@@ -26,11 +37,19 @@
 ;; TODO: enable below Hippie-expand, except it doesn't seem to be a MELPA package?
 ;; TODO: switch to previous buffer: http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 
+;; Starts the emacsclient server -- forces Emacs to run as a daemon
+;; With the proper OS configuration of emacsclient, you can run "emacs filename.txt"
+;; To open a file into the running Emacs window on OSX
+(server-start)
+
 ;; Makes Emacs remember open buffers between runs
 (desktop-save-mode 1)
 
 ;; Disable logging messages when font-locking to speed up rendering
 (setq font-lock-verbose nil)
+
+;; Always show column position
+(setq column-number-mode t)
 
 ;; [use-package] - streamlined package specification - https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package) (package-install 'use-package))
@@ -197,6 +216,9 @@
 ;; [dockerfile-mode] - highlights for Dockerfiles - https://github.com/spotify/dockerfile-mode
 (unless (package-installed-p 'dockerfile-mode) (package-install 'dockerfile-mode))
 
+;; [google-this] - Google stuff under point - https://github.com/Malabarba/emacs-google-this
+(unless (package-installed-p 'google-this) (package-install 'google-this))
+(google-this-mode 1)
 
 ;; ************************************
 ;; ---~~~=====  VARs and FNs  ======~~~---
@@ -214,7 +236,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -306,3 +328,6 @@ the current position of point, then move it to the beginning of the line."
           smartparens-mode-map)
 
 ;; TODO, what are nicer keys for the above bindings, and how to set up/down/left/right to normal character movement?
+
+;; Sets prefix cmd for all "google-this" keys. Try `C-x g g`
+(global-set-key (kbd "C-x g") 'google-this-mode-submap)
