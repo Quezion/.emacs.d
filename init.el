@@ -15,12 +15,13 @@
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ************************************
 
-;; OSX: Disable Emacs GUI
-(tool-bar-mode -1)
 ;; OSX: Resize to default MacBook Pro 2015 screensize
 (setq initial-frame-alist
       `((left . 60) (top . 0)
-        (width . 80) (height . 56)))
+	(width . 80) (height . 56)))
+
+;; OSX: Disable Emacs GUI
+(tool-bar-mode -1)
 
 (x-focus-frame nil)
 (setq ns-pop-up-frames nil)
@@ -190,6 +191,12 @@
 ;; (eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; ************************************
+;; ---~~~====  HASKELL CONFIG  ====~~~---
+;; ************************************
+(unless (package-installed-p 'haskell-mode) (package-install 'haskell-mode))
+
+
+;; ************************************
 ;; ---~~~=====  DevOps CONFIG  =====~~~---
 ;; ************************************
 
@@ -236,7 +243,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -328,6 +335,10 @@ the current position of point, then move it to the beginning of the line."
           smartparens-mode-map)
 
 ;; TODO, what are nicer keys for the above bindings, and how to set up/down/left/right to normal character movement?
+
+(add-hook 'cider-repl-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c M-o") #'cider-repl-clear-buffer)))
 
 ;; Sets prefix cmd for all "google-this" keys. Try `C-x g g`
 (global-set-key (kbd "C-x g") 'google-this-mode-submap)
