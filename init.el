@@ -21,19 +21,18 @@
 	(width . 80) (height . 56)))
 
 ;; OSX: Disable Emacs GUI
-(tool-bar-mode -1)
+(add-hook 'desktop-after-read-hook (lambda () (tool-bar-mode -1)))
 
 (x-focus-frame nil)
 (setq ns-pop-up-frames nil)
-;;(server-start)
 
 ;; Tell Emacs to only GC when 40mb of garbage is reached
 ;; this prevents aggressive GCs that trigger several time a second and create bad UX
-;; (If the current year is >=2020, you should probably increase this.)
+;; (If the current year is >=2020, you should probably increase this)
 (setq gc-cons-threshold 40000000)
 
 ;; TODO: fix colors being off in from `ansi-term` command
-;; TODO: refactor all package declarations to the `use-package' format for cleanliness+faster boot
+;; TODO: refactor all package declarations to `use-package' format for cleanliness+faster boot
 ;; TODO: https://github.com/purcell/exec-path-from-shell
 ;; TODO: enable below Hippie-expand, except it doesn't seem to be a MELPA package?
 ;; TODO: switch to previous buffer: http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
@@ -131,7 +130,7 @@
 ;; [Hydra] - tie together related commands off common prefix - https://github.com/abo-abo/hydra
 (unless (package-installed-p 'hydra) (package-install 'hydra))
 
-;; [Modern Regex] - Provides modern regex cmds - https://github.com/benma/visual-regexp-steroids.el
+;; [Modern Regex] - Provides modern regex cmds - www.github.com/benma/visual-regexp-steroids.el
 (unless (package-installed-p 'visual-regexp-steroids)
   (package-install 'visual-regexp-steroids))
 
@@ -191,10 +190,10 @@
 ;; (eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; ************************************
-;; ---~~~====  HASKELL CONFIG  ====~~~---
+;; ---~~~==== GENERAL LANG CONFIG  ====~~~---
 ;; ************************************
 (unless (package-installed-p 'haskell-mode) (package-install 'haskell-mode))
-
+(unless (package-installed-p 'groovy-mode) (package-install 'groovy-mode))
 
 ;; ************************************
 ;; ---~~~=====  DevOps CONFIG  =====~~~---
@@ -243,7 +242,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
    (quote
-    (haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -252,6 +251,10 @@
  )
 
 (load-theme 'solarized-dark)
+
+;; causes all trailing whitespace to be removed
+;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Custom functions
 (defun close-all-buffers ()
