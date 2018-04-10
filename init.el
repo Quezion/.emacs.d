@@ -11,6 +11,13 @@
 ;; It's necessary any time I add a new package or install for the first time
 (package-refresh-contents) ;; Required to maintain updated package list
 
+;; ******************************************
+;; ---~~~====  SUPPORTING LIBRARIES  =====~~~---
+;; ******************************************
+;; A modern list library -- https://github.com/magnars/dash.el
+;; REQUIRED FOR SOLARIZED THEME
+(unless (package-installed-p 'dash) (package-install 'dash))
+
 ;; ************************************
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ************************************
@@ -83,8 +90,13 @@
 (unless (package-installed-p 'rainbow-delimiters) (package-install 'rainbow-delimiters))
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
+;; [Rainbow Mode] - color-code hexstrings - https://github.com/emacsmirror/rainbow-mode
+(unless (package-installed-p 'rainbow-mode) (package-install 'rainbow-mode))
+
 ;; [Solarized-theme] - https://github.com/bbatsov/solarized-emacs
-(unless (package-installed-p 'solarized-theme) (package-install 'solarized-theme))
+;;(unless (package-installed-p 'solarized-theme) (package-install 'solarized-theme))
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
 (unless (package-installed-p 'desktop+) (package-install 'desktop+))
@@ -236,13 +248,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cider-repl-use-pretty-printing t)
- '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor solarized-theme rainbow-delimiters clojure-mode))))
+    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -250,7 +261,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-(load-theme 'solarized-dark)
+;;(load-theme 'solarized-dark)
 
 ;; causes all trailing whitespace to be removed
 ;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
@@ -339,6 +350,7 @@ the current position of point, then move it to the beginning of the line."
 
 ;; TODO, what are nicer keys for the above bindings, and how to set up/down/left/right to normal character movement?
 
+;; From Matthew Emerson -- thanks!
 (add-hook 'cider-repl-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c M-o") #'cider-repl-clear-buffer)))
