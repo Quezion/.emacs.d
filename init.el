@@ -97,6 +97,7 @@
 ;;(unless (package-installed-p 'solarized-theme) (package-install 'solarized-theme))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(setq solarized-distinct-doc-face t)
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
 (unless (package-installed-p 'desktop+) (package-install 'desktop+))
@@ -253,7 +254,13 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode))))
+    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode)))
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+	   (fboundp
+	    (quote rainbow-mode))
+	   (rainbow-mode 1))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
