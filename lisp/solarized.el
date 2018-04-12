@@ -138,8 +138,8 @@ Alpha should be a float between 0 and 1."
           (light-class (append '((background light)) class))
           (dark-class (append '((background dark)) class))
           (variant ,variant)
-          (s-base03    "#0f151c") ;; QOVERRIDE: was "#002b36"
-          (s-base02    "#073642")
+          (s-base03    "#041d24") ;; QOVERRIDE: was "#002b36"
+          (s-base02    "#42464f")
           ;; emphasized content
           (s-base01    "#586e75")
           ;; primary content
@@ -153,12 +153,12 @@ Alpha should be a float between 0 and 1."
           (s-base3     "#fff8e5")
 
           ;; Solarized accented colors
-          (yellow    "#fee55b")
-          (orange    "#f38232")
-          (red       "#fb5b4f")
-          (magenta   "#d646cf")
+          (yellow    "#ead480")
+          (orange    "#f7ad0c")
+          (red       "#FF410D")
+          (magenta   "#b948cd")
           (violet    "#ffb8fc") ;; QOVERRIDE: was "#6c71c4"
-          (blue      "#98e1e1") ;; QOVERRIDE was "#268bd2"
+          (blue      "#267fb5") ;; QOVERRIDE was "#268bd2"
           (cyan      "#25c3db") ;; QOVERRIDE: was "#2aa198"
           (green     "#79c455") ;; QNOTE: "#859900" was the ugly macro color in everything
 
@@ -1142,7 +1142,7 @@ customize the resulting theme."
 ;;;;; highlight-numbers
      `(highlight-numbers-number ((,class (:foreground ,violet :bold nil))))
 ;;;;; highlight-symbol
-     `(highlight-symbol-face ((,class (:foreground ,magenta))))
+     `(highlight-symbol-face ((,class (:foreground ,yellow))))
 ;;;;; hl-line-mode
      `(hl-line ((,class (:background ,base02))))
      `(hl-line-face ((,class (:background ,base02))))
@@ -1796,17 +1796,17 @@ customize the resulting theme."
      `(rainbow-blocks-unmatched-face ((,class (:foreground ,red))))
 ;;;;; rainbow-delimiters
      `(rainbow-delimiters-depth-1-face ((,class (:foreground ,s-base01))))
-     `(rainbow-delimiters-depth-2-face ((,class (:foreground ,s-base3))))
-     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,cyan))))
-     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,yellow))))
-     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,orange))))
-     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,s-base01))))
-     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,s-base3))))
-     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,cyan))))
-     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
-     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,orange))))
+     `(rainbow-delimiters-depth-2-face ((,class (:foreground ,s-base2))))
+     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,magenta))))
+     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,s-base01))))
+     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,s-base2))))
+     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,magenta))))
+     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,s-base01))))
+     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,s-base2))))
+     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,magenta))))
+     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
      `(rainbow-delimiters-unmatched-face
        ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 ;;;;; rpm-mode
@@ -1861,7 +1861,7 @@ customize the resulting theme."
      `(sp-wrap-tag-overlay-face ((,class (:background ,base02))))
      `(sp-show-pair-enclosing ((,class (:inherit highlight))))
      `(sp-show-pair-match-face
-       ((,class (:background unspecified :foreground ,magenta
+       ((,class (:background unspecified :foreground ,green
                              :weight ,s-maybe-bold))))
      `(sp-show-pair-mismatch-face
        ((,class (:foreground ,base02 :background ,red
@@ -2229,7 +2229,7 @@ customize the resulting theme."
        '(,red ,orange ,yellow ,green-d ,green-l
               ,blue-d ,cyan ,magenta ,violet))
 ;;;;; highlight-changes
-     `(highlight-changes-colors '(,magenta ,violet))
+     `(highlight-changes-colors '(,yellow ,orange))
 ;;;;; highlight-parentheses
      `(hl-paren-colors '(,cyan ,yellow ,blue ,violet ,green))
 ;;;;; highlight-symbol
