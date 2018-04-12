@@ -154,11 +154,11 @@ Alpha should be a float between 0 and 1."
 
           ;; Solarized accented colors
           (yellow    "#ead480")
-          (orange    "#f7ad0c")
+          (orange    "#f59137")
           (red       "#FF410D")
-          (magenta   "#b948cd")
+          (magenta   "#dc0ed3")
           (violet    "#ffb8fc") ;; QOVERRIDE: was "#6c71c4"
-          (blue      "#2c88c0") ;; QOVERRIDE was "#268bd2"
+          (blue      "#2d92cf") ;; QOVERRIDE was "#268bd2"
           (cyan      "#25c3db") ;; QOVERRIDE: was "#2aa198"
           (green     "#0fe690") ;; QNOTE: "#859900" was the ugly macro color in everything
           ;; TODO: consider making the green the "washed out arcade green", could use it in more?
