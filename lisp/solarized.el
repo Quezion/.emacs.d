@@ -158,9 +158,10 @@ Alpha should be a float between 0 and 1."
           (red       "#FF410D")
           (magenta   "#b948cd")
           (violet    "#ffb8fc") ;; QOVERRIDE: was "#6c71c4"
-          (blue      "#267fb5") ;; QOVERRIDE was "#268bd2"
+          (blue      "#2c88c0") ;; QOVERRIDE was "#268bd2"
           (cyan      "#25c3db") ;; QOVERRIDE: was "#2aa198"
-          (green     "#79c455") ;; QNOTE: "#859900" was the ugly macro color in everything
+          (green     "#0fe690") ;; QNOTE: "#859900" was the ugly macro color in everything
+          ;; TODO: consider making the green the "washed out arcade green", could use it in more?
 
           ;; Darker and lighter accented colors
           ;; Only use these in exceptional circumstances!
@@ -433,7 +434,7 @@ customize the resulting theme."
        ((,class (:foreground ,base01 :slant ,s-maybe-italic))))
      `(font-lock-comment-face ((,class (:foreground ,base01))))
      `(font-lock-constant-face ((,class (:foreground ,cyan :weight bold))))
-     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face magenta yellow)
+     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face magenta blue)
                                                 :slant ,s-maybe-italic))))
      `(font-lock-function-name-face ((,class (:foreground ,cyan))))
      `(font-lock-keyword-face ((,class (:foreground ,orange :weight ,s-maybe-bold)))) ;; QOVERRIDE: was green
@@ -441,7 +442,7 @@ customize the resulting theme."
      `(font-lock-preprocessor-face ((,class (:foreground ,cyan))))
      `(font-lock-regexp-grouping-construct ((,class (:foreground ,yellow :weight bold))))
      `(font-lock-regexp-grouping-backslash ((,class (:foreground ,green :weight bold))))
-     `(font-lock-string-face ((,class (:foreground ,yellow))))
+     `(font-lock-string-face ((,class (:foreground ,blue))))
      `(font-lock-type-face ((,class (:foreground ,orange)))) ;; QOVERRIDE: was yellow
      `(font-lock-variable-name-face ((,class (:foreground ,cyan))))
      `(font-lock-warning-face ((,class (:inherit error :weight bold))))
@@ -1798,15 +1799,15 @@ customize the resulting theme."
      `(rainbow-delimiters-depth-1-face ((,class (:foreground ,s-base01))))
      `(rainbow-delimiters-depth-2-face ((,class (:foreground ,s-base2))))
      `(rainbow-delimiters-depth-3-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,cyan))))
      `(rainbow-delimiters-depth-5-face ((,class (:foreground ,s-base01))))
      `(rainbow-delimiters-depth-6-face ((,class (:foreground ,s-base2))))
      `(rainbow-delimiters-depth-7-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,cyan))))
      `(rainbow-delimiters-depth-9-face ((,class (:foreground ,s-base01))))
      `(rainbow-delimiters-depth-10-face ((,class (:foreground ,s-base2))))
      `(rainbow-delimiters-depth-11-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,cyan))))
      `(rainbow-delimiters-unmatched-face
        ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 ;;;;; rpm-mode
