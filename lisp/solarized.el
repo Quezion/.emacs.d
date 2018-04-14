@@ -433,7 +433,7 @@ customize the resulting theme."
      `(font-lock-comment-delimiter-face
        ((,class (:foreground ,base01 :slant ,s-maybe-italic))))
      `(font-lock-comment-face ((,class (:foreground ,base01))))
-     `(font-lock-constant-face ((,class (:foreground ,orange :weight bold))))
+     `(font-lock-constant-face ((,class (:foreground ,green :weight bold))))
      `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face s-base3 cyan)
                                                 :slant ,s-maybe-italic))))
      `(font-lock-function-name-face ((,class (:foreground ,cyan))))
