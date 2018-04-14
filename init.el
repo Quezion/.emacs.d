@@ -30,7 +30,6 @@
 ;; OSX: Disable Emacs GUI
 (add-hook 'desktop-after-read-hook (lambda () (tool-bar-mode -1)))
 
-(x-focus-frame nil)
 (setq ns-pop-up-frames nil)
 
 ;; Tell Emacs to only GC when 40mb of garbage is reached
@@ -47,7 +46,9 @@
 ;; Starts the emacsclient server -- forces Emacs to run as a daemon
 ;; With the proper OS configuration of emacsclient, you can run "emacs filename.txt"
 ;; To open a file into the running Emacs window on OSX
+;; ref https://stackoverflow.com/questions/10171280/how-to-launch-gui-emacs-from-command-line-in-osx
 (server-start)
+(x-focus-frame nil) ;; required for proper OSX behavior
 
 ;; Makes Emacs remember open buffers between runs
 (desktop-save-mode 1)
@@ -297,7 +298,7 @@
 ;; Sets the default text for the scratch buffer
 (setq initial-scratch-message "=== GOAL ===\n\n=== PROBLEM STATEMENT ===\n\n=== Q&A ===\nWhy can't the goal be achieved?")
 
-;; Below scratch FNs auto-reopen the m*scratch* buffer when it's killed
+;; Below scratch FNs auto-reopen the *scratch* buffer when it's killed
 ;; This obviates the need to "figure out how to recreate the *scratch* buffer"
 ;; Stolen from: https://emacs.stackexchange.com/questions/20/re-open-scratch-buffer
 (defun prepare-scratch-for-kill ()
