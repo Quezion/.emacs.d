@@ -98,7 +98,7 @@
 ;;(unless (package-installed-p 'solarized-theme) (package-install 'solarized-theme))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-;;(setq solarized-distinct-doc-face t)
+(setq solarized-distinct-doc-face t)
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
 (unless (package-installed-p 'desktop+) (package-install 'desktop+))

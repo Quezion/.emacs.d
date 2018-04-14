@@ -138,7 +138,7 @@ Alpha should be a float between 0 and 1."
           (light-class (append '((background light)) class))
           (dark-class (append '((background dark)) class))
           (variant ,variant)
-          (s-base03    "#041d24") ;; QOVERRIDE: was "#002b36"
+          (s-base03    "#121c1f") ;; QOVERRIDE: was "#002b36"
           (s-base02    "#42464f")
           ;; emphasized content
           (s-base01    "#586e75")
@@ -150,13 +150,13 @@ Alpha should be a float between 0 and 1."
           ;; background highlight light
           (s-base2     "#f2ecd8")
           ;; background light
-          (s-base3     "#fff8e5")
+          (s-base3     "#f2eee1")
 
           ;; Solarized accented colors
-          (yellow    "#ead480")
+          (yellow    "#ffcf58") ;; QOVERRIDE: changed from nice #ead480 to CLU yllw
           (orange    "#f59137")
           (red       "#FF410D")
-          (magenta   "#dc0ed3")
+          (magenta   "#ce1cc6")
           (violet    "#ffb8fc") ;; QOVERRIDE: was "#6c71c4"
           (blue      "#2d92cf") ;; QOVERRIDE was "#268bd2"
           (cyan      "#25c3db") ;; QOVERRIDE: was "#2aa198"
@@ -433,18 +433,18 @@ customize the resulting theme."
      `(font-lock-comment-delimiter-face
        ((,class (:foreground ,base01 :slant ,s-maybe-italic))))
      `(font-lock-comment-face ((,class (:foreground ,base01))))
-     `(font-lock-constant-face ((,class (:foreground ,cyan :weight bold))))
-     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face magenta blue)
+     `(font-lock-constant-face ((,class (:foreground ,orange :weight bold))))
+     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face s-base3 cyan)
                                                 :slant ,s-maybe-italic))))
      `(font-lock-function-name-face ((,class (:foreground ,cyan))))
-     `(font-lock-keyword-face ((,class (:foreground ,orange :weight ,s-maybe-bold)))) ;; QOVERRIDE: was green
+     `(font-lock-keyword-face ((,class (:foreground ,blue :weight ,s-maybe-bold)))) ;; QOVERRIDE: was green
      `(font-lock-negation-char-face ((,class (:foreground ,yellow :weight bold))))
      `(font-lock-preprocessor-face ((,class (:foreground ,cyan))))
      `(font-lock-regexp-grouping-construct ((,class (:foreground ,yellow :weight bold))))
      `(font-lock-regexp-grouping-backslash ((,class (:foreground ,green :weight bold))))
-     `(font-lock-string-face ((,class (:foreground ,blue))))
-     `(font-lock-type-face ((,class (:foreground ,orange)))) ;; QOVERRIDE: was yellow
-     `(font-lock-variable-name-face ((,class (:foreground ,cyan))))
+     `(font-lock-string-face ((,class (:foreground ,cyan))))
+     `(font-lock-type-face ((,class (:foreground ,cyan)))) ;; QOVERRIDE: was yellow
+     `(font-lock-variable-name-face ((,class (:foreground ,magenta))))
      `(font-lock-warning-face ((,class (:inherit error :weight bold))))
      `(c-annotation-face ((,class (:inherit font-lock-constant-face))))
 ;;;; Third-party
