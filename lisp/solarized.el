@@ -138,7 +138,7 @@ Alpha should be a float between 0 and 1."
           (light-class (append '((background light)) class))
           (dark-class (append '((background dark)) class))
           (variant ,variant)
-          (s-base03    "#121c1f") ;; QOVERRIDE: was "#002b36"
+          (s-base03    "#101a1c") ;; QOVERRIDE: was "#002b36"
           (s-base02    "#42464f")
           ;; emphasized content
           (s-base01    "#586e75")
@@ -156,11 +156,11 @@ Alpha should be a float between 0 and 1."
           (yellow    "#ffcf58") ;; QOVERRIDE: changed from nice #ead480 to CLU yllw
           (orange    "#f59137")
           (red       "#FF410D")
-          (magenta   "#ce1cc6")
+          (magenta   "#bd5dba")
           (violet    "#ffb8fc") ;; QOVERRIDE: was "#6c71c4"
           (blue      "#2d92cf") ;; QOVERRIDE was "#268bd2"
           (cyan      "#25c3db") ;; QOVERRIDE: was "#2aa198"
-          (green     "#0fe690") ;; QNOTE: "#859900" was the ugly macro color in everything
+          (green     "#0ecb80") ;; QNOTE: "#859900" was the ugly macro color in everything
           ;; TODO: consider making the green the "washed out arcade green", could use it in more?
 
           ;; Darker and lighter accented colors
@@ -433,8 +433,8 @@ customize the resulting theme."
      `(font-lock-comment-delimiter-face
        ((,class (:foreground ,base01 :slant ,s-maybe-italic))))
      `(font-lock-comment-face ((,class (:foreground ,base01))))
-     `(font-lock-constant-face ((,class (:foreground ,green :weight bold))))
-     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face s-base3 cyan)
+     `(font-lock-constant-face ((,class (:foreground ,magenta :weight bold))))
+     `(font-lock-doc-face ((,class (:foreground ,(if solarized-distinct-doc-face s-base01 cyan)
                                                 :slant ,s-maybe-italic))))
      `(font-lock-function-name-face ((,class (:foreground ,cyan))))
      `(font-lock-keyword-face ((,class (:foreground ,blue :weight ,s-maybe-bold)))) ;; QOVERRIDE: was green
@@ -443,8 +443,8 @@ customize the resulting theme."
      `(font-lock-regexp-grouping-construct ((,class (:foreground ,yellow :weight bold))))
      `(font-lock-regexp-grouping-backslash ((,class (:foreground ,green :weight bold))))
      `(font-lock-string-face ((,class (:foreground ,cyan))))
-     `(font-lock-type-face ((,class (:foreground ,cyan)))) ;; QOVERRIDE: was yellow
-     `(font-lock-variable-name-face ((,class (:foreground ,magenta))))
+     `(font-lock-type-face ((,class (:foreground ,yellow)))) ;; QOVERRIDE: was yellow
+     `(font-lock-variable-name-face ((,class (:foreground ,cyan))))
      `(font-lock-warning-face ((,class (:inherit error :weight bold))))
      `(c-annotation-face ((,class (:inherit font-lock-constant-face))))
 ;;;; Third-party
@@ -1798,16 +1798,16 @@ customize the resulting theme."
 ;;;;; rainbow-delimiters
      `(rainbow-delimiters-depth-1-face ((,class (:foreground ,s-base01))))
      `(rainbow-delimiters-depth-2-face ((,class (:foreground ,s-base2))))
-     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,cyan))))
-     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,s-base01))))
-     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,s-base2))))
-     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,cyan))))
-     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,s-base01))))
-     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,s-base2))))
-     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,magenta))))
-     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,cyan))))
+     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,cyan))))
+     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,magenta))))
+     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,green))))
+     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,yellow))))
+     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,s-base01))))
+     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,s-base2))))
+     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,cyan))))
+     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,magenta))))
+     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,green))))
+     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,yellow))))
      `(rainbow-delimiters-unmatched-face
        ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 ;;;;; rpm-mode
@@ -1862,7 +1862,7 @@ customize the resulting theme."
      `(sp-wrap-tag-overlay-face ((,class (:background ,base02))))
      `(sp-show-pair-enclosing ((,class (:inherit highlight))))
      `(sp-show-pair-match-face
-       ((,class (:background unspecified :foreground ,green
+       ((,class (:background unspecified :foreground ,violet
                              :weight ,s-maybe-bold))))
      `(sp-show-pair-mismatch-face
        ((,class (:foreground ,base02 :background ,red
