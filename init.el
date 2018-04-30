@@ -269,7 +269,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-;;(load-theme 'solarized-dark)
+(load-theme 'solarized-dark)
 
 ;; causes all trailing whitespace to be removed
 ;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
