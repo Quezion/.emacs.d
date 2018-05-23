@@ -178,6 +178,8 @@
   (mlet 'defun))
 
 ;; [CIDER Debugger] - https://github.com/clojure-emacs/cider
+(unless (package-installed-p 'cider)
+  (package-install 'cider))
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 ;; WARNING: Makes repl autoreload. Boot projects are assumed to have boot-refresh
