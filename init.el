@@ -7,9 +7,10 @@
    '("melpa" . "http://melpa.org/packages/")
    t)
   (package-initialize))
+
 ;; IF YOU ARE HAVING DIFFICULTIES GETTING PACKAGES, UNCOMMENT BELOW LINE
 ;; It's necessary any time I add a new package or install for the first time
-;;(package-refresh-contents) ;; Required to maintain updated package list
+(package-refresh-contents) ;; Required to maintain updated package list
 
 ;; ******************************************
 ;; ---~~~====  SUPPORTING LIBRARIES  =====~~~---
@@ -21,6 +22,10 @@
 ;; ************************************
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ************************************
+
+;; BUG NOTE: You MUST manually create /emacs-backup/ or Projectile seems to stop working
+;; flat file backups in one place. eliminates annoying files~ in git tree
+(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
 
 ;; OSX: Resize to default MacBook Pro 2015 screensize
 (setq initial-frame-alist
@@ -182,10 +187,15 @@
   (package-install 'cider))
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
+(setq cider-default-repl-command "lein")
+
 ;; WARNING: Makes repl autoreload. Boot projects are assumed to have boot-refresh
 ;;            https://github.com/samestep/boot-refresh
 (setq cider-boot-parameters "repl -s watch refresh")
 ;;(setq cider-boot-parameters "dev")
+
+;; TODO: can set this to value `fipp` or `puget`, ref https://goo.gl/Pu4UQc
+;;(setq cider-pprint-fn "user/my-pprint")
 
 ;; [Clojure Refactor (CIDER based)] - https://github.com/clojure-emacs/clj-refactor.el
 (unless (package-installed-p 'clj-refactor) (package-install 'clj-refactor))
@@ -204,6 +214,9 @@
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; (unless (package-installed-p 'flycheck-pos-tip) (package-install 'flycheck-pos-tip))
 ;; (eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+
+;; Syntax highlighting on ~/.closhrc - https://github.com/dundalek/closh
+(add-to-list 'auto-mode-alist '(".closhrc\\'" . clojure-mode))
 
 ;; ************************************
 ;; ---~~~==== GENERAL LANG CONFIG  ====~~~---
@@ -290,6 +303,14 @@
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
 	(revert-buffer t t t) )))
   (message "Refreshed open files."))
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer
+	(delq (current-buffer)
+	      (remove-if-not 'buffer-file-name (buffer-list))))
+  (message "Killed all buffers except current"))
 
 (defun format-buffer ()
   (interactive)
