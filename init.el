@@ -307,9 +307,7 @@
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
-  (mapc 'kill-buffer
-	(delq (current-buffer)
-	      (remove-if-not 'buffer-file-name (buffer-list))))
+  (mapc 'kill-buffer (cdr (buffer-list (current-buffer))))
   (message "Killed all buffers except current"))
 
 (defun format-buffer ()
