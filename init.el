@@ -94,6 +94,10 @@
 (straight-use-package 'projectile)
 (projectile-global-mode) ;; enabled for all modes
 
+;; Required workaround for helm-projectile (below)
+;; see https://github.com/bbatsov/helm-projectile/issues/116
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
 ;; [Helm-Projectile] - Helm completion in Projectile commands - https://github.com/bbatsov/helm-projectile
 (straight-use-package 'helm-projectile)
 (require 'helm-projectile)
@@ -357,18 +361,18 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Shamelessly stolen from Fuco1's smartparens setup
 ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
-(bind-key "C-M-s"
-          (defhydra smartparens-hydra ()
-            "Smartparens"
-            ("w" sp-down-sexp "Down")
-            ("s" sp-up-sexp "Up")
-            ("u" sp-backward-up-sexp "Up")
-            ("a" sp-backward-down-sexp "Down")
-            ("d" sp-forward-sexp "Forward")
-            ("a" sp-backward-sexp "Backward")
-            ("k" sp-kill-sexp "Kill" :color blue)
-            ("q" nil "Quit" :color blue))
-          smartparens-mode-map)
+;; (bind-key "C-M-s"
+;;           (defhydra smartparens-hydra ()
+;;             "Smartparens"
+;;             ("w" sp-down-sexp "Down")
+;;             ("s" sp-up-sexp "Up")
+;;             ("u" sp-backward-up-sexp "Up")
+;;             ("a" sp-backward-down-sexp "Down")
+;;             ("d" sp-forward-sexp "Forward")
+;;             ("a" sp-backward-sexp "Backward")
+;;             ("k" sp-kill-sexp "Kill" :color blue)
+;;             ("q" nil "Quit" :color blue))
+;;           smartparens-mode-map)
 
 ;; TODO, what are nicer keys for the above bindings, and how to set up/down/left/right to normal character movement?
 
