@@ -17,3 +17,8 @@ projectile.cache
 auto-save-list
 tramp
 .\#*
+
+# straight package manager files
+straight/build
+straight/build-cache.el
+straight/repos

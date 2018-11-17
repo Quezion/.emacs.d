@@ -1,26 +1,23 @@
-;; MELPA (latest)
-;; https://www.emacswiki.org/emacs/MELPA
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/")
-   t)
-  (package-initialize))
-
-;; IF YOU ARE HAVING DIFFICULTIES GETTING PACKAGES, UNCOMMENT BELOW LINE
-;; It's necessary any time I add a new package or install for the first time
-(package-refresh-contents) ;; Required to maintain updated package list
-;;(when (not package-archive-contents)
-;;(package-refresh-contents))
-
+;; straight.el bootstrap -- https://github.com/raxod502/straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; ******************************************
 ;; ---~~~====  SUPPORTING LIBRARIES  =====~~~---
 ;; ******************************************
 ;; A modern list library -- https://github.com/magnars/dash.el
 ;; REQUIRED FOR SOLARIZED THEME
-(unless (package-installed-p 'dash) (package-install 'dash))
+(straight-use-package 'dash)
 
 ;; ************************************
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
@@ -45,12 +42,6 @@
 ;; (If the current year is >=2020, you should probably increase this)
 (setq gc-cons-threshold 40000000)
 
-;; TODO: fix colors being off in from `ansi-term` command
-;; TODO: refactor all package declarations to `use-package' format for cleanliness+faster boot
-;; TODO: https://github.com/purcell/exec-path-from-shell
-;; TODO: enable below Hippie-expand, except it doesn't seem to be a MELPA package?
-;; TODO: switch to previous buffer: http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
-
 ;; Starts the emacsclient server -- forces Emacs to run as a daemon
 ;; With the proper OS configuration of emacsclient, you can run "emacs filename.txt"
 ;; To open a file into the running Emacs window on OSX
@@ -67,23 +58,15 @@
 ;; Always show column position
 (setq column-number-mode t)
 
-;; [use-package] - streamlined package specification - https://github.com/jwiegley/use-package
-;; NOTE: not actually used yet, need to refactor all package-installs to it
-(unless (package-installed-p 'use-package) (package-install 'use-package))
-
-;;(unless (package-installed-p 'keyfreq) (package-install 'keyfreq))
-;;(keyfreq-mode 1)
-;;(keyfreq-autosave-mode 1)
-
 ;; [buffer-move] - transpose buffers - https://github.com/lukhas/buffer-move
-(unless (package-installed-p 'buffer-move) (package-install 'buffer-move))
+(straight-use-package 'buffer-move)
 (global-set-key (kbd "<C-S-up>")     'buf-move-up)
 (global-set-key (kbd "<C-S-down>")   'buf-move-down)
 (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 (global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
 ;; [Helm] - incremental completion and selection narrowing - https://github.com/emacs-helm/helm
-(unless (package-installed-p 'helm) (package-install 'helm))
+(straight-use-package 'helm)
 (require 'helm-config)
 (helm-mode 1)
 ;; Replace some built-in FNs with the helm upgrades
@@ -91,49 +74,40 @@
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 
-;; [Hippie Expand] - Tries to expand word at/before point
-;; (unless (package-installed-p 'hippie-expand) (package-install 'hippie-expand))
-
-;; [Flycheck] - inline error highlighting - http://www.flycheck.org/en/latest/
-;;(unless (package-installed-p 'flycheck) (package-install 'flycheck))
-;;(global-flycheck-mode)
-;; OSX workaround for Flycheck - https://github.com/purcell/exec-path-from-shell
-;;(unless (package-installed-p 'exec-path-from-shell) (package-install 'exec-path-from-shell))
-
 ;; [Rainbow Delimiters] - multicolor parens - https://www.emacswiki.org/emacs/RainbowDelimiters
-(unless (package-installed-p 'rainbow-delimiters) (package-install 'rainbow-delimiters))
+(straight-use-package 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; [Rainbow Mode] - color-code hexstrings - https://github.com/emacsmirror/rainbow-mode
-(unless (package-installed-p 'rainbow-mode) (package-install 'rainbow-mode))
+(straight-use-package 'rainbow-mode)
 
 ;; [Solarized-theme] - https://github.com/bbatsov/solarized-emacs
-;;(unless (package-installed-p 'solarized-theme) (package-install 'solarized-theme))
+;;(straight-use-package 'solarized-theme)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq solarized-distinct-doc-face t)
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
-(unless (package-installed-p 'desktop+) (package-install 'desktop+))
+;;(straight-use-package 'desktop+)
 
 ;; [Projectile] - 1st class abstractions on project files - https://github.com/bbatsov/projectile
-(unless (package-installed-p 'projectile) (package-install 'projectile))
+(straight-use-package 'projectile)
 (projectile-global-mode) ;; enabled for all modes
 
 ;; [Helm-Projectile] - Helm completion in Projectile commands - https://github.com/bbatsov/helm-projectile
-(unless (package-installed-p 'helm-projectile) (package-install 'helm-projectile))
+(straight-use-package 'helm-projectile)
 (require 'helm-projectile)
 (helm-projectile-on)
 
 ;; [Aggressive Indent Mode] - https://github.com/Malabarba/aggressive-indent-mode
-(unless (package-installed-p 'aggressive-indent) (package-install 'aggressive-indent))
+(straight-use-package 'aggressive-indent)
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 (add-hook 'css-mode-hook #'aggressive-indent-mode)
 (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
 
 ;; [Modern Paredit for major modes] - https://github.com/Fuco1/smartparens
 ;;  - has support for Paredit in non-LISP modes, but not yet understood/enabled
-(unless (package-installed-p 'smartparens) (package-install 'smartparens))
+(straight-use-package 'smartparens)
 (require 'smartparens-config) ;; loads default bindings & settings
 ;; reference: https://github.com/Fuco1/smartparens/blob/master/smartparens-config.el
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode) ;; ???
@@ -155,15 +129,13 @@
 (add-hook 'scheme-mode-hook           #'show-smartparens-mode)
 
 ;; [Hydra] - tie together related commands off common prefix - https://github.com/abo-abo/hydra
-(unless (package-installed-p 'hydra) (package-install 'hydra))
+(straight-use-package 'hydra)
 
 ;; [Modern Regex] - Provides modern regex cmds - www.github.com/benma/visual-regexp-steroids.el
-(unless (package-installed-p 'visual-regexp-steroids)
-  (package-install 'visual-regexp-steroids))
+(straight-use-package 'visual-regexp-steroids)
 
 ;; [ggtags] - improves Emacs symbol tagging - https://github.com/leoliu/ggtags
-(unless (package-installed-p 'ggtags)
-  (package-install 'ggtags))
+(straight-use-package 'ggtags)
 (add-hook 'c-mode-common-hook
           (lambda ()
             (when (derived-mode-p 'clojure-mode 'c++-mode 'java-mode)
@@ -177,11 +149,10 @@
 (add-to-list 'exec-path "/usr/local/bin")
 
 ;; [Clojure mode]- https://github.com/clojure-emacs/clojure-mode
-(unless (package-installed-p 'clojure-mode) (package-install 'clojure-mode))
+(straight-use-package 'clojure-mode)
 
 ;; [Clojure mode xtra font locking] - (keyword highlighting)
-(unless (package-installed-p 'clojure-mode-extra-font-locking)
-  (package-install 'clojure-mode-extra-font-locking))
+(straight-use-package 'clojure-mode-extra-font-locking)
 (eval-after-load 'clojure-mode '(require 'clojure-mode-extra-font-locking))
 
 ;; [Editor intg for cats monad library] - http://funcool.github.io/cats/latest/#editor-integration
@@ -191,8 +162,7 @@
   (mlet 'defun))
 
 ;; [CIDER Debugger] - https://github.com/clojure-emacs/cider
-(unless (package-installed-p 'cider)
-  (package-install 'cider))
+(straight-use-package 'cider)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 (setq cider-default-repl-command "lein")
@@ -226,22 +196,23 @@
 ;; Syntax highlighting on ~/.closhrc - https://github.com/dundalek/closh
 (add-to-list 'auto-mode-alist '(".closhrc\\'" . clojure-mode))
 
+
 ;; ************************************
 ;; ---~~~==== GENERAL LANG CONFIG  ====~~~---
 ;; ************************************
-(unless (package-installed-p 'haskell-mode) (package-install 'haskell-mode))
-(unless (package-installed-p 'groovy-mode) (package-install 'groovy-mode))
+(straight-use-package 'haskell-mode)
+(straight-use-package 'groovy-mode)
 
 ;; ************************************
 ;; ---~~~=====  DevOps CONFIG  =====~~~---
 ;; ************************************
 
 ;; [yaml-mode] - YAML syntax highlighting - https://github.com/yoshiki/yaml-mode
-(unless (package-installed-p 'yaml-mode) (package-install 'yaml-mode))
+(straight-use-package 'yaml-mode)
 
 ;; [docker.el] - enables docker commands from Emacs - https://github.com/Silex/docker.el
 ;; try M-x docker-images
-(unless (package-installed-p 'docker) (package-install 'docker))
+(straight-use-package 'docker)
 
 ;; OSX only Docker configuration, will probably break Emacs on Linux
 ;; (by default Linux installs docker to /bin/bash/docker, but OSX does not)
@@ -257,15 +228,13 @@
 (setq ns-function-modifier 'super)
 
 ;; [dockerfile-mode] - highlights for Dockerfiles - https://github.com/spotify/dockerfile-mode
-(unless (package-installed-p 'dockerfile-mode) (package-install 'dockerfile-mode))
+(straight-use-package 'dockerfile-mode)
 
 ;; [google-this] - Google stuff under point - https://github.com/Malabarba/emacs-google-this
-(unless (package-installed-p 'google-this) (package-install 'google-this))
+(straight-use-package 'google-this)
 (google-this-mode 1)
 
-;; ************************************
-;; ---~~~=====  VARs and FNs  ======~~~---
-;; ************************************
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
