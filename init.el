@@ -11,6 +11,9 @@
 ;; IF YOU ARE HAVING DIFFICULTIES GETTING PACKAGES, UNCOMMENT BELOW LINE
 ;; It's necessary any time I add a new package or install for the first time
 (package-refresh-contents) ;; Required to maintain updated package list
+;;(when (not package-archive-contents)
+;;(package-refresh-contents))
+
 
 ;; ******************************************
 ;; ---~~~====  SUPPORTING LIBRARIES  =====~~~---
@@ -65,7 +68,12 @@
 (setq column-number-mode t)
 
 ;; [use-package] - streamlined package specification - https://github.com/jwiegley/use-package
+;; NOTE: not actually used yet, need to refactor all package-installs to it
 (unless (package-installed-p 'use-package) (package-install 'use-package))
+
+;;(unless (package-installed-p 'keyfreq) (package-install 'keyfreq))
+;;(keyfreq-mode 1)
+;;(keyfreq-autosave-mode 1)
 
 ;; [buffer-move] - transpose buffers - https://github.com/lukhas/buffer-move
 (unless (package-installed-p 'buffer-move) (package-install 'buffer-move))
@@ -87,10 +95,10 @@
 ;; (unless (package-installed-p 'hippie-expand) (package-install 'hippie-expand))
 
 ;; [Flycheck] - inline error highlighting - http://www.flycheck.org/en/latest/
-(unless (package-installed-p 'flycheck) (package-install 'flycheck))
-(global-flycheck-mode)
+;;(unless (package-installed-p 'flycheck) (package-install 'flycheck))
+;;(global-flycheck-mode)
 ;; OSX workaround for Flycheck - https://github.com/purcell/exec-path-from-shell
-(unless (package-installed-p 'exec-path-from-shell) (package-install 'exec-path-from-shell))
+;;(unless (package-installed-p 'exec-path-from-shell) (package-install 'exec-path-from-shell))
 
 ;; [Rainbow Delimiters] - multicolor parens - https://www.emacswiki.org/emacs/RainbowDelimiters
 (unless (package-installed-p 'rainbow-delimiters) (package-install 'rainbow-delimiters))
@@ -198,13 +206,13 @@
 ;;(setq cider-pprint-fn "user/my-pprint")
 
 ;; [Clojure Refactor (CIDER based)] - https://github.com/clojure-emacs/clj-refactor.el
-(unless (package-installed-p 'clj-refactor) (package-install 'clj-refactor))
-(defun my-clojure-refactor-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1) ; for adding require/use/import statements
-  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
-(add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
+;;(unless (package-installed-p 'clj-refactor) (package-install 'clj-refactor))
+;; (defun my-clojure-refactor-hook ()
+;;   (clj-refactor-mode 1)
+;;   (yas-minor-mode 1) ; for adding require/use/import statements
+;;   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+;;   (cljr-add-keybindings-with-prefix "C-c C-m"))
+;; (add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
 
 ;; [CIDER+Flycheck Clojure linting] - https://github.com/clojure-emacs/squiggly-clojure
 ;; (unless (package-installed-p 'flycheck-clojure) (package-install 'flycheck-clojure))
@@ -270,7 +278,7 @@
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode)))
+    (keyfreq groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode)))
  '(safe-local-variable-values
    (quote
     ((eval when
@@ -288,7 +296,7 @@
 
 ;; causes all trailing whitespace to be removed
 ;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Custom functions
 (defun close-all-buffers ()
