@@ -12,16 +12,16 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; ******************************************
+;; *********************************************
 ;; ---~~~====  SUPPORTING LIBRARIES  =====~~~---
-;; ******************************************
+;; *********************************************
 ;; A modern list library -- https://github.com/magnars/dash.el
 ;; REQUIRED FOR SOLARIZED THEME
 (straight-use-package 'dash)
 
-;; ************************************
+;; ***************************************
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
-;; ************************************
+;; ***************************************
 
 ;; BUG NOTE: You MUST manually create /emacs-backup/ or Projectile seems to stop working
 ;; flat file backups in one place. eliminates annoying files~ in git tree
@@ -88,7 +88,7 @@
 (setq solarized-distinct-doc-face t)
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
-;;(straight-use-package 'desktop+)
+(straight-use-package 'desktop+)
 
 ;; [Projectile] - 1st class abstractions on project files - https://github.com/bbatsov/projectile
 (straight-use-package 'projectile)
@@ -145,9 +145,26 @@
             (when (derived-mode-p 'clojure-mode 'c++-mode 'java-mode)
               (ggtags-mode 1))))
 
-;; ************************************
+;; [magit] - Manipulate Git repos from Emacs - https://github.com/vermiculus/magithub
+(straight-use-package 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; [magit-popup] - Generic wrapping interface over Emacs commands - https://github.com/magit/magit-popup
+;;                 I don't use it, but is dependency of magit & was causing errors. See below
+(straight-use-package 'magit-popup)
+;; NOTE: M-x magit-branch-popup causes below error unless explicit loaded
+;;       Unknown if this is due to a bug in straight.el loading or some caching mechanism
+;;  ERR: helm-M-x: Wrong type argument: magit-popup-event, [cl-struct-magit-popup-event 100 "branch.%s.description" magit-format-branch*description magit-edit-branch*description nil nil]
+;; This defers eval until first use of magit, which fixes error at cost of small 1-time delay
+(with-eval-after-load 'magit-files
+  (straight-rebuild-package "magit-popup"))
+
+;; [magithub] - Browse GitHub - https://github.com/vermiculus/magithub
+(straight-use-package 'magithub)
+
+;; **************************************
 ;; ---~~~====  CLOJURE CONFIG  ====~~~---
-;; ************************************
+;; **************************************
 
 ;; [lein config] - Required for Emacs to find lein - WILL VARY BY HOST RUNNING Emacs!
 (add-to-list 'exec-path "/usr/local/bin")
@@ -170,6 +187,9 @@
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
 (setq cider-default-repl-command "lein")
+
+;; disabled, but can eval to jack-in with specific options in lein invocation
+;;(setq cider-lein-global-options "with-profiles local nrepl")
 
 ;; WARNING: Makes repl autoreload. Boot projects are assumed to have boot-refresh
 ;;            https://github.com/samestep/boot-refresh
@@ -201,15 +221,15 @@
 (add-to-list 'auto-mode-alist '(".closhrc\\'" . clojure-mode))
 
 
-;; ************************************
+;; ******************************************
 ;; ---~~~==== GENERAL LANG CONFIG  ====~~~---
-;; ************************************
+;; ******************************************
 (straight-use-package 'haskell-mode)
 (straight-use-package 'groovy-mode)
 
-;; ************************************
+;; ***************************************
 ;; ---~~~=====  DevOps CONFIG  =====~~~---
-;; ************************************
+;; ***************************************
 
 ;; [yaml-mode] - YAML syntax highlighting - https://github.com/yoshiki/yaml-mode
 (straight-use-package 'yaml-mode)
@@ -271,8 +291,11 @@
 ;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
 ;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Custom functions
-(defun close-all-buffers ()
+;; **************************************
+;; ---~~~======= FUNCTIONS  =======~~~---
+;; **************************************
+
+(defun kill-all-buffers ()
   (interactive)
   (mapc 'kill-buffer (buffer-list)))
 
@@ -344,9 +367,9 @@ the current position of point, then move it to the beginning of the line."
 (global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
 (global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
 
-;; ************************************
+;; **************************************
 ;; ---~~~=======  KEYBINDS  =======~~~---
-;; ************************************
+;; **************************************
 
 ;; Visual regexp on steroids
 (define-key global-map (kbd "C-c r") 'vr/replace)
