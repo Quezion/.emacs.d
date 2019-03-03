@@ -23,6 +23,9 @@
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ***************************************
 
+;; Tells emacs to be generous when printing expressions (for instance, to the *Message* buffer)
+(setq eval-expression-print-length nil)
+
 ;; BUG NOTE: You MUST manually create /emacs-backup/ or Projectile seems to stop working
 ;; flat file backups in one place. eliminates annoying files~ in git tree
 (setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
@@ -32,15 +35,35 @@
       `((left . 60) (top . 0)
 	(width . 80) (height . 56)))
 
-;; OSX: Disable Emacs GUI
-(add-hook 'desktop-after-read-hook (lambda () (tool-bar-mode -1)))
+;; OSX: Disable Emacs GUI & correct resizing
+(setq frame-resize-pixelwise t)
+
+(setq ns-auto-hide-menu-bar t)
+
+(defun enable-window-garbage ()
+  (interactive)
+  (menu-bar-mode 1)
+  (tool-bar-mode 1)
+  (scroll-bar-mode 1))
+
+(defun disable-window-garbage ()
+  (interactive)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
+
+(add-hook 'desktop-after-read-hook (lambda ()
+				     (disable-window-garbage)))
+
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (setq ns-pop-up-frames nil)
 
-;; Tell Emacs to only GC when 40mb of garbage is reached
+;; Tell Emacs to only GC when 60mb of garbage is reached
 ;; this prevents aggressive GCs that trigger several time a second and create bad UX
-;; (If the current year is >=2020, you should probably increase this)
-(setq gc-cons-threshold 40000000)
+;; (If the current year is >=2021, you should probably increase this)
+(setq gc-cons-threshold 60000000)
+
 
 ;; Starts the emacsclient server -- forces Emacs to run as a daemon
 ;; With the proper OS configuration of emacsclient, you can run "emacs filename.txt"
@@ -73,6 +96,10 @@
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
+
+;; [company-mode] - in-buffer completion dropdown - http://company-mode.github.io/
+(straight-use-package 'company)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; [Rainbow Delimiters] - multicolor parens - https://www.emacswiki.org/emacs/RainbowDelimiters
 (straight-use-package 'rainbow-delimiters)
@@ -364,6 +391,31 @@ the current position of point, then move it to the beginning of the line."
   (other-window 1 nil)
   (switch-to-next-buffer))
 
+(defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
+  "*Resize window interactively."
+  (interactive "p")
+  (if (one-window-p) (error "Cannot resize sole window"))
+  (or arg (setq arg 1))
+  (let (c)
+    (catch 'done
+      (while t
+	(message
+	 "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
+	 arg)
+	(setq c (read-char))
+	(condition-case ()
+	    (cond
+	     ((= c ?h) (enlarge-window arg))
+	     ((= c ?s) (shrink-window arg))
+	     ((= c ?w) (enlarge-window-horizontally arg))
+	     ((= c ?n) (shrink-window-horizontally arg))
+	     ((= c ?\^G) (keyboard-quit))
+	     ((= c ?q) (throw 'done t))
+	     ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
+	     (t (beep)))
+	  (error (beep)))))
+    (message "Done.")))
+
 (global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
 (global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
 
@@ -376,6 +428,8 @@ the current position of point, then move it to the beginning of the line."
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
 
 ;; Move to beginning of code or beginning of line (toggle)
+(define-key global-map (kbd "C-a") 'smart-line-beginning)
+
 (define-key global-map (kbd "C-a") 'smart-line-beginning)
 
 ;; Try to intelligently expand word at/before point
@@ -406,3 +460,4 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Sets prefix cmd for all "google-this" keys. Try `C-x g g`
 (global-set-key (kbd "C-x g") 'google-this-mode-submap)
+(global-set-key (kbd "C-x m") 'maximize-emacs)
