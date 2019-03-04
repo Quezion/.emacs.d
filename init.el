@@ -430,8 +430,6 @@ the current position of point, then move it to the beginning of the line."
 ;; Move to beginning of code or beginning of line (toggle)
 (define-key global-map (kbd "C-a") 'smart-line-beginning)
 
-(define-key global-map (kbd "C-a") 'smart-line-beginning)
-
 ;; Try to intelligently expand word at/before point
 ;; (global-set-key "\M- " 'hippie-expand)
 
@@ -460,4 +458,3 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Sets prefix cmd for all "google-this" keys. Try `C-x g g`
 (global-set-key (kbd "C-x g") 'google-this-mode-submap)
-(global-set-key (kbd "C-x m") 'maximize-emacs)
