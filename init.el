@@ -63,10 +63,10 @@
 
 (setq ns-pop-up-frames nil)
 
-;; Tell Emacs to only GC when 60mb of garbage is reached
+;; Tell Emacs to only GC when 80mb of garbage is reached
 ;; this prevents aggressive GCs that trigger several time a second and create bad UX
-;; (If the current year is >=2021, you should probably increase this)
-(setq gc-cons-threshold 60000000)
+;; (If the current year is >=2022, you should probably increase this)
+(setq gc-cons-threshold 80000000)
 
 
 ;; Starts the emacsclient server -- forces Emacs to run as a daemon
@@ -473,3 +473,14 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Sets prefix cmd for all "google-this" keys. Try `C-x g g`
 (global-set-key (kbd "C-x g") 'google-this-mode-submap)
+
+;; https://stackoverflow.com/questions/18316665/how-to-improve-emacs-performance-when-view-large-file
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 102400 20))
+    ;;(setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)
+    (linum-mode -1)))
+
+(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
