@@ -40,6 +40,10 @@
 
 (setq ns-auto-hide-menu-bar t)
 
+;; From David Ongaro -- thanks!
+(setq ns-use-native-fullscreen nil)
+(global-set-key (kbd "C-x m") 'toggle-frame-fullscreen)
+
 (defun enable-window-garbage ()
   (interactive)
   (menu-bar-mode 1)
@@ -419,13 +423,24 @@ the current position of point, then move it to the beginning of the line."
 (global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
 (global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
 
+;; insert an empty line after the current line and position the cursor on its beginning
+(defun insert-empty-line ()
+  (interactive)
+  (move-end-of-line nil)
+  (open-line 1)
+  (next-line 1))
+
+(global-set-key [(shift return)] 'insert-empty-line)
+(global-set-key [(control return)] 'other-window)
+(global-set-key [(meta return)] (lambda () (interactive) (other-window -1)))
+
 ;; **************************************
 ;; ---~~~=======  KEYBINDS  =======~~~---
 ;; **************************************
 
 ;; Visual regexp on steroids
 (define-key global-map (kbd "C-c r") 'vr/replace)
-(define-key global-map (kbd "C-c q") 'vr/query-replace)
+(define-key global-map (kbd "S-c q") 'vr/query-replace)
 
 ;; Move to beginning of code or beginning of line (toggle)
 (define-key global-map (kbd "C-a") 'smart-line-beginning)
