@@ -1,6 +1,7 @@
 auto-save-list/*
 .DS_Store
 elpa/*
+transient/*
 desktops
 url
 ido.last

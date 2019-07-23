@@ -198,7 +198,7 @@
 ;; **************************************
 
 ;; [lein config] - Required for Emacs to find lein - WILL VARY BY HOST RUNNING Emacs!
-(add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path "/Users/quest/bin")
 
 ;; [Clojure mode]- https://github.com/clojure-emacs/clojure-mode
 (straight-use-package 'clojure-mode)
@@ -217,7 +217,7 @@
 (straight-use-package 'cider)
 (add-hook 'cider-mode-hook #'eldoc-mode)
 
-(setq cider-default-repl-command "lein")
+(setq cider-default-repl-command "boot")
 
 ;; disabled, but can eval to jack-in with specific options in lein invocation
 ;;(setq cider-lein-global-options "with-profiles local nrepl")
@@ -231,26 +231,26 @@
 ;;(setq cider-pprint-fn "user/my-pprint")
 
 ;; [Clojure Refactor (CIDER based)] - https://github.com/clojure-emacs/clj-refactor.el
-;;(unless (package-installed-p 'clj-refactor) (package-install 'clj-refactor))
-;; (defun my-clojure-refactor-hook ()
-;;   (clj-refactor-mode 1)
-;;   (yas-minor-mode 1) ; for adding require/use/import statements
-;;   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-;;   (cljr-add-keybindings-with-prefix "C-c C-m"))
-;; (add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
+(straight-use-package 'clj-refactor)
+(defun my-clojure-refactor-hook ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1) ; for adding require/use/import statements
+  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
+(add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
 
 ;; [CIDER+Flycheck Clojure linting] - https://github.com/clojure-emacs/squiggly-clojure
-;; (unless (package-installed-p 'flycheck-clojure) (package-install 'flycheck-clojure))
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
-;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-;; (unless (package-installed-p 'flycheck-pos-tip) (package-install 'flycheck-pos-tip))
-;; (eval-after-load 'flycheck '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+(straight-use-package 'flycheck-clojure)
+(eval-after-load 'flycheck '(flycheck-clojure-setup))
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(straight-use-package 'flycheck-pos-tip)
+(with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
+(eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; Syntax highlighting on ~/.closhrc - https://github.com/dundalek/closh
 (add-to-list 'auto-mode-alist '(".closhrc\\'" . clojure-mode))
-
+(add-to-list 'auto-mode-alist '("profiles.boot\\'" . clojure-mode))
 
 ;; ******************************************
 ;; ---~~~==== GENERAL LANG CONFIG  ====~~~---
@@ -276,7 +276,7 @@
 ;; Use "docker-machine env box" command to find out your environment variables
 (setenv "DOCKER_TLS_VERIFY" "1")
 (setenv "DOCKER_HOST" "tcp://10.11.12.13:2376")
-(setenv "DOCKER_CERT_PATH" "/Users/foo/.docker/machine/machines/box")
+(setenv "DOCKER_CERT_PATH" "/Users/quest/.docker/machine/machines/box")
 (setenv "DOCKER_MACHINE_NAME" "box")
 
 ;; OSX only keybind config
@@ -320,7 +320,7 @@
 
 ;; causes all trailing whitespace to be removed
 ;; ref http://batsov.com/articles/2011/11/25/emacs-tip-number-3-whitespace-cleanup/
-;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; **************************************
 ;; ---~~~======= FUNCTIONS  =======~~~---
