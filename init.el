@@ -68,6 +68,8 @@
 ;; (If the current year is >=2022, you should probably increase this)
 (setq gc-cons-threshold 80000000)
 
+;; Removes default C-x c keybinding that closes Emacs
+(global-unset-key (kbd "C-x C-c"))
 
 ;; Starts the emacsclient server -- forces Emacs to run as a daemon
 ;; With the proper OS configuration of emacsclient, you can run "emacs filename.txt"
@@ -96,6 +98,24 @@
 (straight-use-package 'helm)
 (require 'helm-config)
 (helm-mode 1)
+
+;; Stolen from Tuhdo's config -- http://tuhdo.github.io/helm-intro.html -- thanks!
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t
+      helm-echo-input-in-header-line t)
+
+(setq helm-autoresize-max-height 0)
+(setq helm-autoresize-min-height 30)
+(helm-autoresize-mode 1)
+
+(define-key helm-map (kbd "<left>") 'helm-previous-source)
+(define-key helm-map (kbd "<right>") 'helm-next-source)
+
+(customize-set-variable 'helm-ff-lynx-style-map t)
+
 ;; Replace some built-in FNs with the helm upgrades
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)

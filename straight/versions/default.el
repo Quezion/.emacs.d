@@ -25,7 +25,7 @@
  ("gnu-elpa-mirror" . "abc8e638f0e846785c5633a97545015e0ed7fa12")
  ("groovy-emacs-modes" . "aa531c659758b896ff8fbd307080ce0d1d04ebfb")
  ("haskell-mode" . "9623545dfb0724fb347959e8a6262680667cde84")
- ("helm" . "14637cb228e0d862658bb83e7b237c717c8a0562")
+ ("helm" . "12c50cf2a3748f44eb8c8ccad89ebd6e63fe99f6")
  ("helm-projectile" . "b62cea69c1fc292c577935e8e58d1bf3bb258b43")
  ("hydra" . "a91dd72529aadd2d3cc14e132a3e0545eb2975a6")
  ("json-mode" . "0e819e519ae17a2686e0881c4ca51fa873fa9b83")
