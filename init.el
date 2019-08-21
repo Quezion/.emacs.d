@@ -28,7 +28,9 @@
 
 ;; BUG NOTE: You MUST manually create /emacs-backup/ or Projectile seems to stop working
 ;; flat file backups in one place. eliminates annoying files~ in git tree
-(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
+;;(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
+(setq backup-directory-alist
+      `(("." . ,(concat user-emacs-directory "emacs-backup"))))
 
 ;; OSX: Resize to default MacBook Pro 2015 screensize
 (setq initial-frame-alist
@@ -93,6 +95,25 @@
 (global-set-key (kbd "<C-S-down>")   'buf-move-down)
 (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 (global-set-key (kbd "<C-S-right>")  'buf-move-right)
+
+;; [sublimity] - smooth scrolling - https://github.com/zk-phi/sublimity
+(straight-use-package 'sublimity)
+(require 'sublimity-scroll)
+(setq sublimity-scroll-weight 10
+      sublimity-scroll-drift-length 5)
+(define-globalized-minor-mode my-sublimity-mode sublimity-mode
+  (lambda () (sublimity-mode 1)))
+(my-sublimity-mode 1)
+
+;; (require 'sublimity-map)
+;; (setq sublimity-map-size 18)
+;; (setq sublimity-map-fraction 0.3)
+;; (setq sublimity-map-text-scale -7)
+;; (add-hook 'sublimity-map-setup-hook
+;;           (lambda ()
+;;             (setq buffer-face-mode-face '(:family "Monospace"))
+;;             (buffer-face-mode)))
+;; (sublimity-map-set-delay 8)
 
 ;; [Helm] - incremental completion and selection narrowing - https://github.com/emacs-helm/helm
 (straight-use-package 'helm)
@@ -218,6 +239,7 @@
 ;; **************************************
 
 ;; [lein config] - Required for Emacs to find lein - WILL VARY BY HOST RUNNING Emacs!
+;; You may need to symlink lein to /usr/local/bin in order for some Clj tooling to work
 (add-to-list 'exec-path "/Users/quest/bin")
 
 ;; [Clojure mode]- https://github.com/clojure-emacs/clojure-mode
@@ -251,22 +273,23 @@
 ;;(setq cider-pprint-fn "user/my-pprint")
 
 ;; [Clojure Refactor (CIDER based)] - https://github.com/clojure-emacs/clj-refactor.el
-(straight-use-package 'clj-refactor)
-(defun my-clojure-refactor-hook ()
-  (clj-refactor-mode 1)
-  (yas-minor-mode 1) ; for adding require/use/import statements
-  ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
-(add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
+;; (straight-use-package 'clj-refactor)
+;; (defun my-clojure-refactor-hook ()
+;;   (clj-refactor-mode 1)
+;;   (yas-minor-mode 1) ; for adding require/use/import statements
+;;   ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+;;   (cljr-add-keybindings-with-prefix "C-c C-m"))
+;; (add-hook 'clojure-mode-hook #'my-clojure-refactor-hook)
 
 ;; [CIDER+Flycheck Clojure linting] - https://github.com/clojure-emacs/squiggly-clojure
-(straight-use-package 'flycheck-clojure)
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(straight-use-package 'flycheck-pos-tip)
-(with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
-(eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+;; disabled 2019/07/25 due to constantly eval'ing namespaces and causing measurable UI slowdown
+;;(straight-use-package 'flycheck-clojure)
+;;(eval-after-load 'flycheck '(flycheck-clojure-setup))
+;;(add-hook 'after-init-hook #'global-flycheck-mode)
+;;(straight-use-package 'flycheck-pos-tip)
+;;(with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; Syntax highlighting on ~/.closhrc - https://github.com/dundalek/closh
 (add-to-list 'auto-mode-alist '(".closhrc\\'" . clojure-mode))
@@ -320,12 +343,15 @@
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(helm-ff-lynx-style-map t)
  '(package-selected-packages
    (quote
     (keyfreq groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode)))
  '(safe-local-variable-values
    (quote
-    ((eval when
+    ((cider-default-cljs-repl . shadow)
+     (cider-shadow-cljs-default-options . "app")
+     (eval when
 	   (fboundp
 	    (quote rainbow-mode))
 	   (rainbow-mode 1))))))
@@ -334,7 +360,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:height 140 :family "Menlo")))))
 
 (load-theme 'solarized-dark)
 
@@ -440,6 +466,10 @@ the current position of point, then move it to the beginning of the line."
 	  (error (beep)))))
     (message "Done.")))
 
+;; `C-x o` moves window focus forward 1 -- this alias makes  capital O move back 1
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1)))
 (global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
 (global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
 
