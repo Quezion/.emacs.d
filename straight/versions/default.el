@@ -1,7 +1,7 @@
 (("aggressive-indent-mode" . "3803f24020ef0a656dc5345713c4964073aec9a8")
  ("apiwrap.el" . "e4c9c57d6620a788ec8a715ff1bb50542edea3a6")
  ("buffer-move" . "cb517ecf8409b5fdcda472d7190c6021f0c49751")
- ("cider" . "200c88adb1314b5811ba749af42ffb6817c1ca1b")
+ ("cider" . "bfcf9157a970c9423fe27c5021f445b509e71280")
  ("cl-lib" . "e79686c4a26959c0ecba0951a7e335ed28035386")
  ("clojure-mode" . "721287c7a756678d5fe8fa0dcb2d8dc846d239a2")
  ("company-mode" . "ad6ff0eecca99dc5ac8b6a8a6174df7d2ad88ae7")

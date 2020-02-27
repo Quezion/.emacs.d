@@ -32,6 +32,11 @@
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "emacs-backup"))))
 
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "emacs-saves") t)))
+
+(setq create-lockfiles nil)
+
 ;; OSX: Resize to default MacBook Pro 2015 screensize
 (setq initial-frame-alist
       `((left . 60) (top . 0)
