@@ -94,6 +94,61 @@
 ;; Always show column position
 (setq column-number-mode t)
 
+(defun browse-url-chrome-workaround (url &rest ignore)
+  "Uses custom shell script which opens chrome & sets url via AppleScript.
+   Allows non http(s) URIs to be openable"
+  (interactive "sURL: ")
+  (shell-command (concat user-emacs-directory "/open-chrome-osx.sh " url)))
+;; TODO: could never get M-x org-open-at-point to work on URLs like slack://
+(setq browse-url-browser-function 'browse-url-chrome-workaround)
+
+;; [org mode] - plaintext system for organization - https://orgmode.org/
+;; NOTE: must have sqlite3 installed & on path
+;;       test with (executable-find "sqlite3")
+(straight-use-package 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq org-directory "~/org")
+(setq org-agenda-files (list "~/org/concur.org"))
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+
+(setq org-todo-keywords
+      '((sequence
+	 "WISH"
+	 "TODO"
+	 "WAITING"
+	 "BLOCKED"
+	 "|"
+	 "DONE")))
+
+;; [org-babel] - eval code snippets in orgmode - https://orgmode.org/worg/org-contrib/babel
+(straight-use-package 'org-babel-eval-in-repl)
+
+;; [ob-http] - http request in org-mode babel - https://github.com/zweifisch/ob-http
+(straight-use-package 'ob-http)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (http . t)))
+
+;; [org-roam] - hierarchical wiki of notes in orgmode - https://github.com/org-roam/org-roam
+(straight-use-package 'org-roam)
+(add-hook 'after-init-hook 'org-roam-mode)
+(setq org-roam-directory "~/org/roam")
+;; org-mode-roam-map - should technically only be active in this mode and not global
+(global-set-key (kbd "<C-c n l>") 'org-roam)
+(global-set-key (kbd "<C-c n f>") 'org-roam-find-file)
+(global-set-key (kbd "<C-c n g>") 'org-roam-graph-show)
+;; org-mode-map
+(global-set-key (kbd "<C-c n i>") 'org-roam-insert)
+(global-set-key (kbd "<C-c n I>") 'org-roam-insert-immediate)
+
+;; emacs-libvterm - fully developed bash terminal - https://github.com/akermu/emacs-libvterm
+(straight-use-package 'vterm)
+(setq vterm-shell (executable-find "bash"))
+
+
 ;; [buffer-move] - transpose buffers - https://github.com/lukhas/buffer-move
 (straight-use-package 'buffer-move)
 (global-set-key (kbd "<C-S-up>")     'buf-move-up)
@@ -246,6 +301,7 @@
 ;; [lein config] - Required for Emacs to find lein - WILL VARY BY HOST RUNNING Emacs!
 ;; You may need to symlink lein to /usr/local/bin in order for some Clj tooling to work
 (add-to-list 'exec-path "/Users/quest/bin")
+(add-to-list 'exec-path "/Applications/clojure")
 
 ;; [Clojure mode]- https://github.com/clojure-emacs/clojure-mode
 (straight-use-package 'clojure-mode)

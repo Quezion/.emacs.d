@@ -18,6 +18,7 @@ projectile.cache
 auto-save-list
 tramp
 .\#*
+srecode-map.el
 
 # straight package manager files
 straight/build
