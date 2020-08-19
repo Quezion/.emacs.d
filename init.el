@@ -234,6 +234,8 @@
 (straight-use-package 'helm-projectile)
 (require 'helm-projectile)
 (helm-projectile-on)
+(straight-use-package 'helm-rg)
+
 
 ;; [Aggressive Indent Mode] - https://github.com/Malabarba/aggressive-indent-mode
 (straight-use-package 'aggressive-indent)
