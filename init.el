@@ -23,6 +23,9 @@
 ;; ---~~~====  GENERAL CONFIG  =====~~~---
 ;; ***************************************
 
+;; Telling Emacs to stop beeping
+(setq visible-bell t)
+
 ;; Tells emacs to be generous when printing expressions (for instance, to the *Message* buffer)
 (setq eval-expression-print-length nil)
 
@@ -102,6 +105,11 @@
 ;; TODO: could never get M-x org-open-at-point to work on URLs like slack://
 (setq browse-url-browser-function 'browse-url-chrome-workaround)
 
+;; [reveal-in-osx-finder] - reveals file in Finder - https://github.com/kaz-yos/reveal-in-osx-finder
+(straight-use-package 'reveal-in-osx-finder)
+;; If you want to configure a keybinding (e.g., C-c z), add the following
+(global-set-key (kbd "C-c z") 'reveal-in-osx-finder)
+
 ;; [org mode] - plaintext system for organization - https://orgmode.org/
 ;; NOTE: must have sqlite3 installed & on path
 ;;       test with (executable-find "sqlite3")
@@ -110,7 +118,7 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq org-directory "~/org")
-(setq org-agenda-files (list "~/org/concur.org"))
+(setq org-agenda-files (list "~/org/concur_todo.org"))
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 
 (setq org-todo-keywords
@@ -122,15 +130,29 @@
 	 "|"
 	 "DONE")))
 
-;; [org-babel] - eval code snippets in orgmode - https://orgmode.org/worg/org-contrib/babel
-(straight-use-package 'org-babel-eval-in-repl)
+(setq org-confirm-babel-evaluate nil)
 
 ;; [ob-http] - http request in org-mode babel - https://github.com/zweifisch/ob-http
 (straight-use-package 'ob-http)
+
+;; [ob-mermaid] - Generate diagrams using org-mode - https://github.com/arnm/ob-mermaid
+(straight-use-package 'ob-mermaid)
+
+;; [jq-mode] - Major mode for jq scripts, provides org-babel jq - https://github.com/ljos/jq-mode
+(straight-use-package 'jq-mode)
+
+(straight-use-package 'flycheck-clj-kondo)
+(require 'flycheck-clj-kondo)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (http . t)))
+   (shell . t)
+   (clojure . t)
+   (http . t)
+   (jq . t)
+   (mermaid . t) ;; TODO: try this out more, nicer graphviz
+   ))
 
 ;; [org-roam] - hierarchical wiki of notes in orgmode - https://github.com/org-roam/org-roam
 (straight-use-package 'org-roam)
@@ -220,7 +242,7 @@
 (setq solarized-distinct-doc-face t)
 
 ;; [Desktop+] - save/load sets of files into buffers - https://github.com/ffevotte/desktop-plus
-(straight-use-package 'desktop+)
+;; (straight-use-package 'desktop+)
 
 ;; [Projectile] - 1st class abstractions on project files - https://github.com/bbatsov/projectile
 (straight-use-package 'projectile)
@@ -295,6 +317,9 @@
 
 ;; [magithub] - Browse GitHub - https://github.com/vermiculus/magithub
 (straight-use-package 'magithub)
+
+;; [git-timemachine] - View git history of current file
+(straight-use-package 'git-timemachine)
 
 ;; **************************************
 ;; ---~~~====  CLOJURE CONFIG  ====~~~---
@@ -407,6 +432,7 @@
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(helm-ff-lynx-style-map t)
+ '(org-agenda-files nil)
  '(package-selected-packages
    (quote
     (keyfreq groovy-mode haskell-mode google-this yaml-mode dockerfile-mode docker visual-regexp-steroids clojure-mode-extra-font-locking aggressive-indent clj-refactor rainbow-delimiters clojure-mode)))
@@ -560,6 +586,30 @@ the current position of point, then move it to the beginning of the line."
 
 ;; Try to intelligently expand word at/before point
 ;; (global-set-key "\M- " 'hippie-expand)
+
+
+(defun my-startup-screen ()
+  (with-current-buffer (get-buffer-create "Startup screen")
+    (fundamental-mode)
+    (erase-buffer)
+    (insert
+     (format
+      "Blessed art thou, who hath come to the One True Editor.
+        – Anonymous
+Emacs outshines all other editing software in approximately the same
+way that the noonday sun does the stars. It is not just bigger and
+brighter; it simply makes everything else vanish.
+        – Neal Stephenson, “In the Beginning was the Command Line”
+Loaded %d packages in %.3fs seconds
+There are %d customizable settings available."
+      (length package-activated-list)
+      emacs-load-time
+      (let (re) (mapatoms
+                 (lambda (symbol)
+                   (when (get symbol 'standard-value)
+                     (push symbol re))))
+           (length re))))
+    (current-buffer)))
 
 
 ;; Shamelessly stolen from Fuco1's smartparens setup

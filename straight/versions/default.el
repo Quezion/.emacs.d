@@ -5,7 +5,7 @@
  ("apiwrap.el" . "a4fb21d96027369307b22439a4a6c765ee272f44")
  ("avy" . "bbf1e7339eba06784dfe86643bb0fbddf5bb0342")
  ("buffer-move" . "cb517ecf8409b5fdcda472d7190c6021f0c49751")
- ("cider" . "ba62953a84ccb932f6e8c9d122e10b2618dfea4c")
+ ("cider" . "140b062e62165e536dcdb878a00f492a1d5b3518")
  ("clojure-mode" . "c970c4605cd8ebb04b63a992a35a4f283231d58e")
  ("company-mode" . "61ddd9afb58879267bf947b152a68f3dbadb9259")
  ("dash.el" . "721436b04da4e2795387cb48a98ac6de37ece0fd")
